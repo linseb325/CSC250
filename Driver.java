@@ -1,13 +1,20 @@
 import java.util.*;
+import java.io.File;
+import java.util.Scanner;
 public class Driver
 {
 
-	public static void main(String[] args) 
+	public static void main(String[] args) throws Exception
 
 	{
-		int[] ar = {67,7,8,3,1,1,9,5,7,9,3,1,2,4,6,5,8,0,3,9,45,4,2};
-		Driver.mergeSort(ar);
-		Driver.display(ar, 0, ar.length-1);
+		Scanner input = new Scanner(new File(System.getProperty("user.dir") + "/src/caveJSON"));
+		String theJSON = "";
+		while(input.hasNextLine())
+		{
+			theJSON = theJSON + input.nextLine();
+		}
+		CaveParser cp = new CaveParser(theJSON);
+		cp.parse();
 	}
 
 
@@ -74,7 +81,6 @@ public class Driver
 			//of that array back over the original array from begin to end
 		}
 	}
-
 
 	static void display(int[] ar, int begin, int end)
 	{
