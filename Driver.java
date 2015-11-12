@@ -7,13 +7,13 @@ public class Driver
 	public static void main(String[] args) throws Exception
 
 	{
-		Scanner input = new Scanner(new File(System.getProperty("user.dir") + "/src/caveJSON"));
+		Scanner input = new Scanner(new File(System.getProperty("user.dir") + "/src/simpleJSON"));
 		String theJSON = "";
 		while(input.hasNextLine())
 		{
 			theJSON = theJSON + input.nextLine();
 		}
-		CaveParser cp = new CaveParser(theJSON);
+		CaveParser cp = new CaveParser("simpleJSON");
 		cp.parse();
 	}
 
