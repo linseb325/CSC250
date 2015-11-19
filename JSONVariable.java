@@ -1,11 +1,12 @@
-public class JSONVariable 
+
+public abstract class JSONVariable 
 {
-	public String name;
-	public String value;
+	protected String name;
 	
-	public JSONVariable(String name, String value)
+	public JSONVariable(String name)
 	{
 		this.name = name;
-		this.value = value;
 	}
+	
+	abstract void display();
 }

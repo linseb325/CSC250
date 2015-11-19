@@ -1,6 +1,7 @@
+
 public class JSONObject 
 {
-	public JSONVariable[] theVariables;
+	private JSONVariable[] theVariables;
 	private int currSize;
 	
 	public JSONObject()
@@ -16,16 +17,15 @@ public class JSONObject
 			this.theVariables[this.currSize] = jv;
 			this.currSize++;
 		}
-		else
+	}
+	
+	public void display()
+	{
+		System.out.println("JSON Object - Num Vars: " + this.currSize);
+		for(int i = 0; i < this.currSize; i++)
 		{
-			JSONVariable[] temp = new JSONVariable[this.theVariables.length + 1];
-			for(int i = 0; i < temp.length; i++)
-			{
-				temp[i] = this.theVariables[i];
-			}
-			temp[this.currSize] = jv;
-			this.theVariables = temp;
-			this.currSize++;
+			this.theVariables[i].display();
 		}
+		
 	}
 }
