@@ -14,4 +14,9 @@ public class JSONObjectVariable extends JSONVariable
 		System.out.println(this.name +" -> ");
 		this.value.display();
 	}
+
+	String exportToJSON()
+	{
+		return "\"" + this.name + "\"" + ":" + this.value.exportToJSON();
+	}
 }

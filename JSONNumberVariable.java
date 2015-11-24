@@ -15,4 +15,9 @@ public class JSONNumberVariable extends JSONVariable
 		System.out.println("Number : " + this.name + " -> " + this.value);
 	}
 
+	String exportToJSON()
+	{
+		return "\"" + this.name + "\"" + ":" + this.value;
+	}
+
 }

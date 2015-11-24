@@ -12,4 +12,9 @@ public class JSONStringVariable extends JSONVariable
 	{
 		System.out.println("String : " + this.name + " -> " + this.value);
 	}
+	
+	String exportToJSON() 
+	{
+		return "\"" + this.name + "\":\"" + this.value + "\"";
+	}
 }

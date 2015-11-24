@@ -46,7 +46,8 @@ public class CaveParser
 	//moves currPos to the position of the next c in theJSON
 	private void advanceToNextChar(char c)
 	{
-		while(this.currPos < this.theJSON.length() && this.theJSON.charAt(this.currPos) != c)
+		while(this.currPos < this.theJSON.length() && 
+				this.theJSON.charAt(this.currPos) != c)
 		{
 			this.currPos++;
 		}
@@ -111,7 +112,24 @@ public class CaveParser
 		answer = answer.trim();
 		return Integer.parseInt(answer);
 	}
-		
+	
+	//return true if a occurs next before b
+	private boolean charBeforechar(char a, char b)
+	{
+		for(int i = this.currPos; i < this.theJSON.length(); i++)
+		{
+			if(this.theJSON.charAt(i) == b)
+			{
+				return false;
+			}
+			else if(this.theJSON.charAt(i) == a)
+			{
+				return true;
+			}
+		}
+		return false;
+	}
+	
 	private JSONObject getObjectValue()
 	{	
 		while(this.currPos < this.theJSON.length())
@@ -120,7 +138,7 @@ public class CaveParser
 			JSONObject theObject = new JSONObject();
 			theObject.addVariable(this.getVariable());
 			
-			while(this.exists(','))
+			while(this.charBeforechar(',', '}'))
 			{
 				this.advanceToNextChar(',');
 				theObject.addVariable(this.getVariable());
@@ -132,22 +150,6 @@ public class CaveParser
 		//appeases Java that this function always returns a value
 		//we know this line SHOULD never be called
 		return null;
-	}
-	
-	private JSONVariable[] getArrayValue()
-	{
-		JSONVariable[] arrayValue = new JSONVariable[50];
-		this.advancePastNextChar('[');
-		int count = 0;
-		while(this.currPos < this.theJSON.length() && this.theJSON.charAt(this.currPos) != ']')
-		{
-			arrayValue[count] = this.getVariable();
-			count++;
-			//advance to comma separating array elements
-			this.currPos++;
-		}
-		this.advancePastNextChar(']');
-		return arrayValue;
 	}
 	
 	//builds a name/value pair and returns a JSONVariable object
@@ -179,14 +181,28 @@ public class CaveParser
 			return theVariable;
 			//we need to get this into a JSONVariable now
 		}
+		else if(type.equals("Array"))
+		{
+			JSONArrayVariable theVariable = new JSONArrayVariable(name);
+			while(this.currPos < this.theJSON.length())
+			{
+				this.advanceToNextChar('[');
+				theVariable.addJSONObject(this.getObjectValue());
+				
+				while(this.charBeforechar(',', ']'))
+				{
+					this.advanceToNextChar(',');
+					theVariable.addJSONObject(this.getObjectValue());
+				}
+				this.advancePastNextChar(']');
+				return theVariable;
+			}
+			
+		}
+		
 		else if(type.equals("Number"))
 		{
 			JSONNumberVariable theVariable = new JSONNumberVariable(name, this.getNumberValue());
-			return theVariable;
-		}
-		else if(type.equals("Array"))
-		{
-			JSONArray theVariable = new JSONArray(name, this.getArrayValue());
 			return theVariable;
 		}
 		return null;
